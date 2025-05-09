@@ -7,91 +7,64 @@
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<div class="navbar">
-    <button onclick="showSection('home')">Home</button>
-    <button onclick="showSection('projects')">Projects</button>
-</div>
+<nav class="navbar">
+    <button data-section="home">Home</button>
+    <button data-section="projects">Projects</button>
+</nav>
 
-<div id="home" class="content-section">
-    <img src="images/aryan.jpg" alt="Aryan" class="profile-img"
-         onmouseover="this.src='images/my_photos.gif'"
-         onmouseout="this.src='images/aryan.jpg'" />
-    <h1>Aryan Srivastava</h1>
+<main>
+    <section id="home" class="content-section">
+        <img src="images/aryan.jpg" alt="Aryan photo" class="profile-img"
+             onmouseover="this.src='images/my_photos.gif'"
+             onmouseout="this.src='images/aryan.jpg'" />
+        <h1>Aryan Srivastava</h1>
 
-    <div class="education-container">
-        <div class="education-header" onclick="toggleSection('education-details')">
-            🎓 Education
-        </div>
-        <div id="education-details" class="education-details">
-            <div class="edu-entry">
-                <strong>2022–2026:</strong> B.Tech in CSE (AI & DS) <br>
-                JECRC University, Jaipur<br>
-                CGPA: 8.7 (Current)
-            </div>
-            <div class="edu-entry">
-                <strong>2020–2022:</strong> Senior Secondary (Class 12th) <br>
-                XYZ School, Jaipur<br>
-                Percentage: 92%
-            </div>
-            <div class="edu-entry">
-                <strong>2018–2020:</strong> Secondary (Class 10th) <br>
-                ABC School, Jaipur<br>
-                Percentage: 89%
+        <div class="collapsible-container">
+            <div class="collapsible-header" data-toggle="education-details">🎓 Education</div>
+            <div id="education-details" class="collapsible-content">
+                <div class="entry"><strong>2022–2026:</strong> B.Tech CSE (AI & DS)<br>JECRC University, Jaipur<br>CGPA: 8.7</div>
+                <div class="entry"><strong>2020–2022:</strong> Class 12<br>XYZ School, Jaipur<br>Percentage: 92%</div>
+                <div class="entry"><strong>2018–2020:</strong> Class 10<br>ABC School, Jaipur<br>Percentage: 89%</div>
             </div>
         </div>
-    </div>
 
-    <div class="section-container">
-        <div class="section-header" onclick="toggleSection('achievements-details')">🏆 Achievements</div>
-        <div id="achievements-details" class="section-details">
-            <div class="section-entry">Scored 8.5+ CGPA continuously with no backlogs</div>
-            <div class="section-entry">Secured AIR ~1800 in GATE CSE 2025</div>
+        <div class="collapsible-container">
+            <div class="collapsible-header" data-toggle="achievements-details">🏆 Achievements</div>
+            <div id="achievements-details" class="collapsible-content">
+                <div class="entry">Scored 8.5+ CGPA continuously with no backlogs</div>
+                <div class="entry">Secured AIR ~1800 in GATE CSE 2025</div>
+            </div>
         </div>
-    </div>
 
-    <div class="section-container">
-        <div class="section-header" onclick="toggleSection('hobbies-details')">🎯 Hobbies</div>
-        <div id="hobbies-details" class="section-details">
-            <div class="section-entry"><strong>Loves Gaming:</strong> Red Dead Redemption 2, Witcher 3, Elden Ring</div>
-            <div class="section-entry"><strong>Loves Reading:</strong> The Last Wish, Sword of Destiny, Blood of Elves</div>
-            <div class="section-entry"><strong>Loves Music:</strong> Shreya Ghoshal, Rishab Rikhiram Sharma, A.R. Rahman</div>
-            <div class="section-entry"><strong>Loves Movies:</strong> Interstellar, Bahubali 1 & 2, Dark Knight trilogy</div>
+        <div class="collapsible-container">
+            <div class="collapsible-header" data-toggle="hobbies-details">🎯 Hobbies</div>
+            <div id="hobbies-details" class="collapsible-content">
+                <div class="entry"><strong>Gaming:</strong> RDR2, Witcher 3, Elden Ring</div>
+                <div class="entry"><strong>Reading:</strong> The Last Wish, Sword of Destiny, Blood of Elves</div>
+                <div class="entry"><strong>Music:</strong> Shreya Ghoshal, R.R. Sharma, A.R. Rahman</div>
+                <div class="entry"><strong>Movies:</strong> Interstellar, Bahubali 1 & 2, Dark Knight Trilogy</div>
+            </div>
         </div>
-    </div>
-</div>
+    </section>
 
-<div id="projects" class="content-section" style="display: none;">
-    <h2>My Projects</h2>
-    <div class="project-grid">
-        <div class="project-card" onclick="openProject('https://your-streamlit-app-1.streamlit.app')">
-            <img src="images/hangman.png" alt="Hangman Game" class="project-img" />
-            <p>Hangman Game</p>
+    <section id="projects" class="content-section" style="display:none;">
+        <h2>My Projects</h2>
+        <div class="project-grid">
+            <div class="project-card" onclick="openProject('https://your-streamlit-app-1.streamlit.app')">
+                <img src="images/hangman.png" alt="Hangman Game" class="project-img" />
+                <p>Hangman Game</p>
+            </div>
+            <div class="project-card" onclick="openProject('https://your-streamlit-app-1.streamlit.app')">
+                <div class="project-art">📈</div>
+                <p>Sentiment Analyzer</p>
+            </div>
+            <div class="project-card" onclick="openProject('https://your-streamlit-app-2.streamlit.app')">
+                <div class="project-art">📊</div>
+                <p>EDA Auto Tool</p>
+            </div>
         </div>
-        <div class="project-card" onclick="openProject('https://your-streamlit-app-1.streamlit.app')">
-            <div class="project-art">📈</div>
-            <p>Sentiment Analyzer</p>
-        </div>
-        <div class="project-card" onclick="openProject('https://your-streamlit-app-2.streamlit.app')">
-            <div class="project-art">📊</div>
-            <p>EDA Auto Tool</p>
-        </div>
-    </div>
-</div>
-
-<script>
-    function showSection(section) {
-        document.getElementById('home').style.display = section === 'home' ? 'block' : 'none';
-        document.getElementById('projects').style.display = section === 'projects' ? 'block' : 'none';
-    }
-
-    function toggleSection(id) {
-        const el = document.getElementById(id);
-        el.style.display = (el.style.display === "block") ? "none" : "block";
-    }
-
-    function openProject(url) {
-        window.open(url, '_blank');
-    }
-</script>
+    </section>
+</main>
+<script src="script.js"></script>
 </body>
 </html>
