@@ -1,9 +1,50 @@
+/* Base styles and variables */
+:root {
+    --primary-color: #333;
+    --secondary-color: #2b2d42;
+    --light-bg: #f4f4f4;
+    --dark-bg: #1e1e1e;
+    --light-text: #f0f0f0;
+    --dark-text: #333;
+    --accent-color: #1e90ff;
+    --accent-hover: #104e8b;
+    --card-bg: white;
+    --card-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    --transition-speed: 0.3s;
+}
+
+/* Global transitions */
+.collapsible-header,
+.collapsible-content,
+.entry,
+.navbar,
+.project-card,
+.toggle-mode-btn {
+    transition: background-color var(--transition-speed) ease, 
+                color var(--transition-speed) ease, 
+                box-shadow var(--transition-speed) ease;
+}
+
 body {
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
     font-family: Arial, sans-serif;
     margin: 0;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: var(--light-bg);
+    color: var(--dark-text);
     text-align: center;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Full viewport height */
+}
+
+main {
+    flex: 1; /* Takes up available space */
+}
+
+/* Header and Navigation */
+header {
+    width: 100%;
 }
 
 .navbar {
@@ -11,22 +52,23 @@ body {
     justify-content: center;
     gap: 2rem;
     padding: 1rem;
-    background-color: #333;
+    background-color: var(--primary-color);
 }
 
 .navbar button {
-    color: white;
+    color: var(--light-text);
     background: none;
-    border: 1px solid white;
+    border: 1px solid var(--light-text);
     padding: 0.5rem 1rem;
     font-size: 1rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed) ease;
+    border-radius: 4px;
 }
 
 .navbar button:hover {
-    background-color: white;
-    color: #333;
+    background-color: var(--light-text);
+    color: var(--primary-color);
 }
 
 .profile-img {
@@ -57,32 +99,56 @@ body {
     padding: 1rem;
 }
 
+/* Project Cards */
 .project-card {
-    background-color: white;
+    background-color: var(--card-bg);
     border-radius: 10px;
-    width: 200px;
-    padding: 1rem;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    width: 250px;
+    padding: 1.5rem;
+    box-shadow: var(--card-shadow);
     cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.2s ease;
+    transition: transform var(--transition-speed) ease, 
+                background-color var(--transition-speed) ease,
+                box-shadow var(--transition-speed) ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 .project-card:hover {
     transform: scale(1.05);
     background-color: #f0f0f0;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.project-card h3 {
+    margin: 0.5rem 0;
+    color: var(--secondary-color);
+}
+
+.project-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 0.5rem;
 }
 
 .project-art {
-    font-size: 3rem;
+    font-size: 3.5rem;
     margin-bottom: 0.5rem;
 }
 
 .project-img {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     object-fit: cover;
     border-radius: 10px;
     margin-bottom: 0.5rem;
+    transition: transform var(--transition-speed) ease;
+}
+
+.project-card:hover .project-img {
+    transform: scale(1.1);
 }
 
 /* Reusable Collapsible Section */
@@ -137,4 +203,163 @@ body {
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-10px); }
     to   { opacity: 1; transform: translateY(0); }
+}
+
+a {
+    color: #1e90ff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+    border-bottom: 1px solid transparent;
+}
+
+a:hover {
+    color: #104e8b;
+    border-bottom: 1px solid #104e8b;
+}
+
+/* Footer Styles */
+footer {
+    background-color: var(--primary-color);
+    color: var(--light-text);
+    padding: 1.5rem;
+    margin-top: 2rem;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.social-links a {
+    color: var(--light-text);
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--light-text);
+    border-radius: 4px;
+    transition: all var(--transition-speed) ease;
+}
+
+.social-links a:hover {
+    background-color: var(--light-text);
+    color: var(--primary-color);
+    border-color: var(--light-text);
+}
+
+/* Dark Mode Styles */
+body.dark {
+    background-color: var(--dark-bg);
+    color: var(--light-text);
+}
+
+body.dark .navbar {
+    background-color: #111;
+}
+
+body.dark .navbar button {
+    border: 1px solid var(--light-text);
+    color: var(--light-text);
+}
+
+body.dark .navbar button:hover {
+    background-color: var(--light-text);
+    color: #111;
+}
+
+body.dark .collapsible-header {
+    background-color: #444;
+    color: var(--light-text);
+}
+
+body.dark .collapsible-header:hover {
+    background-color: #666;
+}
+
+body.dark .collapsible-content {
+    background-color: #2a2a2a;
+}
+
+body.dark .entry {
+    background-color: #333;
+    color: var(--light-text);
+}
+
+body.dark .entry:hover {
+    background-color: #444;
+}
+
+body.dark .project-card {
+    background-color: #2b2b2b;
+    color: var(--light-text);
+}
+
+body.dark .project-card:hover {
+    background-color: #3a3a3a;
+}
+
+body.dark .project-card h3 {
+    color: var(--light-text);
+}
+
+body.dark .project-description {
+    color: #bbb;
+}
+
+body.dark .social-links a {
+    color: var(--light-text);
+    border-color: var(--light-text);
+}
+
+body.dark .social-links a:hover {
+    background-color: var(--light-text);
+    color: #111;
+}
+
+/* Collapsible Section Animation */
+.collapsible-content {
+    display: block;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s ease-out, opacity 0.4s ease-out;
+}
+
+.collapsible-content.show {
+    max-height: 500px;  /* Set a high enough value to allow the content to expand */
+    opacity: 1;
+}
+
+/* Media Queries */
+@media screen and (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .collapsible-container {
+        width: 95%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .project-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .profile-img:hover {
+        width: 160px;
+        height: 160px;
+    }
+
+    .social-links {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
 }

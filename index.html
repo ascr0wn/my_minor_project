@@ -3,46 +3,66 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="Aryan Srivastava's personal portfolio showcasing education, achievements, hobbies, and projects">
     <title>Aryan's Portfolio</title>
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<nav class="navbar">
-    <button data-section="home">Home</button>
-    <button data-section="projects">Projects</button>
-</nav>
+<header>
+    <nav class="navbar" aria-label="Main navigation">
+        <button data-section="home" aria-pressed="true">🏠 Home</button>
+        <button data-section="projects" aria-pressed="false">🛠️ Projects</button>
+        <button id="theme-toggle" aria-label="Toggle dark mode">🌙 Dark Mode</button>
+    </nav>
+</header>
 
 <main>
     <section id="home" class="content-section">
-        <img src="images/aryan.jpg" alt="Aryan photo" class="profile-img"
-             onmouseover="this.src='images/my_photos.gif'"
-             onmouseout="this.src='images/aryan.jpg'" />
+        <img src="images/aryan.jpg" alt="Aryan Srivastava's profile photo" class="profile-img"
+             data-hover-src="images/my_photos.gif" />
         <h1>Aryan Srivastava</h1>
 
         <div class="collapsible-container">
-            <div class="collapsible-header" data-toggle="education-details">🎓 Education</div>
-            <div id="education-details" class="collapsible-content">
-                <div class="entry"><strong>2022–2026:</strong> B.Tech CSE (AI & DS)<br>JECRC University, Jaipur<br>CGPA: 8.7</div>
-                <div class="entry"><strong>2020–2022:</strong> Class 12<br>XYZ School, Jaipur<br>Percentage: 92%</div>
-                <div class="entry"><strong>2018–2020:</strong> Class 10<br>ABC School, Jaipur<br>Percentage: 89%</div>
+            <div class="collapsible-header" data-toggle="education-details" role="button" aria-expanded="false" aria-controls="education-details">🎓 Education</div>
+            <div id="education-details" class="collapsible-content" aria-hidden="true">
+                <div class="entry"><strong>2022–2026:</strong> B.Tech CSE (Blockchain)<br><a href="https://jecrcuniversity.edu.in" target="_blank" rel="noopener noreferrer">JECRC University, Jaipur</a><br>CGPA: 8.7</div>
+                <div class="entry"><strong>2020–2021:</strong> Class 12<br><a href="https://polkajisikar.in/" target="_blank" rel="noopener noreferrer">Polkaji Siksha Sansthan, Sikar</a><br>Percentage: 77%</div>
+                <div class="entry"><strong>2018–2019:</strong> Class 10<br><a href="https://www.euroschoolindia.com/" target="_blank" rel="noopener noreferrer">Euro International School, Sikar</a><br>Percentage: 87%</div>
             </div>
         </div>
 
         <div class="collapsible-container">
-            <div class="collapsible-header" data-toggle="achievements-details">🏆 Achievements</div>
-            <div id="achievements-details" class="collapsible-content">
+            <div class="collapsible-header" data-toggle="achievements-details" role="button" aria-expanded="false" aria-controls="achievements-details">🏆 Achievements</div>
+            <div id="achievements-details" class="collapsible-content" aria-hidden="true">
                 <div class="entry">Scored 8.5+ CGPA continuously with no backlogs</div>
-                <div class="entry">Secured AIR ~1800 in GATE CSE 2025</div>
+                <div class="entry">Secured AIR 1852 in <a href="https://gate2025.iitr.ac.in/index.html" target="_blank" rel="noopener noreferrer"> GATE 2025 CSE</a></div>
             </div>
         </div>
 
         <div class="collapsible-container">
-            <div class="collapsible-header" data-toggle="hobbies-details">🎯 Hobbies</div>
-            <div id="hobbies-details" class="collapsible-content">
-                <div class="entry"><strong>Gaming:</strong> RDR2, Witcher 3, Elden Ring</div>
-                <div class="entry"><strong>Reading:</strong> The Last Wish, Sword of Destiny, Blood of Elves</div>
-                <div class="entry"><strong>Music:</strong> Shreya Ghoshal, R.R. Sharma, A.R. Rahman</div>
-                <div class="entry"><strong>Movies:</strong> Interstellar, Bahubali 1 & 2, Dark Knight Trilogy</div>
+            <div class="collapsible-header" data-toggle="hobbies-details" role="button" aria-expanded="false" aria-controls="hobbies-details">🎯 Hobbies</div>
+            <div id="hobbies-details" class="collapsible-content" aria-hidden="true">
+                <div class="entry"><strong>Gaming:</strong>
+                    <a href="https://en.wikipedia.org/wiki/Red_Dead_Redemption_2" target="_blank" rel="noopener noreferrer">RDR2</a>,
+                    <a href="https://en.wikipedia.org/wiki/The_Witcher_3:_Wild_Hunt" target="_blank" rel="noopener noreferrer">Witcher 3: Wild Hunt</a>,
+                    <a href="https://en.wikipedia.org/wiki/Elden_Ring" target="_blank" rel="noopener noreferrer">Elden Ring</a>
+                </div>
+                <div class="entry"><strong>Reading:</strong>
+                    <a href="https://en.wikipedia.org/wiki/The_Last_Wish" target="_blank" rel="noopener noreferrer">The Last Wish</a>,
+                    <a href="https://en.wikipedia.org/wiki/Sword_of_Destiny" target="_blank" rel="noopener noreferrer">Sword of Destiny</a>,
+                    <a href="https://en.wikipedia.org/wiki/Blood_of_Elves" target="_blank" rel="noopener noreferrer">Blood of Elves</a>
+                </div>
+                <div class="entry"><strong>Music:</strong>
+                    <a href="https://en.wikipedia.org/wiki/Shreya_Ghoshal" target="_blank" rel="noopener noreferrer">Shreya Ghoshal</a>,
+                    <a href="https://en.wikipedia.org/wiki/R._R._Sharma" target="_blank" rel="noopener noreferrer">R.R. Sharma</a>,
+                    <a href="https://en.wikipedia.org/wiki/A._R._Rahman" target="_blank" rel="noopener noreferrer">A.R. Rahman</a>
+                </div>
+                <div class="entry"><strong>Movies:</strong>
+                    <a href="https://en.wikipedia.org/wiki/Interstellar_(film)" target="_blank" rel="noopener noreferrer">Interstellar</a>,
+                    <a href="https://en.wikipedia.org/wiki/Baahubali:_The_Beginning" target="_blank" rel="noopener noreferrer">Bahubali 1</a> &
+                    <a href="https://en.wikipedia.org/wiki/Baahubali_2:_The_Conclusion" target="_blank" rel="noopener noreferrer">2</a>,
+                    <a href="https://en.wikipedia.org/wiki/The_Dark_Knight_Trilogy" target="_blank" rel="noopener noreferrer">Dark Knight Trilogy</a>
+                </div>
             </div>
         </div>
     </section>
@@ -50,21 +70,39 @@
     <section id="projects" class="content-section" style="display:none;">
         <h2>My Projects</h2>
         <div class="project-grid">
-            <div class="project-card" onclick="openProject('https://your-streamlit-app-1.streamlit.app')">
-                <img src="images/hangman.png" alt="Hangman Game" class="project-img" />
-                <p>Hangman Game</p>
-            </div>
-            <div class="project-card" onclick="openProject('https://your-streamlit-app-1.streamlit.app')">
-                <div class="project-art">📈</div>
-                <p>Sentiment Analyzer</p>
-            </div>
-            <div class="project-card" onclick="openProject('https://your-streamlit-app-2.streamlit.app')">
-                <div class="project-art">📊</div>
-                <p>EDA Auto Tool</p>
-            </div>
+            <article class="project-card" data-project-url="https://hangmangame-2ew9d7nsdxgwhyk2zomztr.streamlit.app/">
+                <img src="images/hangman.png" alt="Screenshot of Hangman Game" class="project-img" />
+                <h3>Hangman Game</h3>
+                <p class="project-description">A classic word-guessing game built with interactive features.</p>
+            </article>
+            <article class="project-card" data-project-url="https://your-streamlit-app-1.streamlit.app">
+                <div class="project-art" aria-hidden="true">📈</div>
+                <h3>Sentiment Analyzer</h3>
+                <p class="project-description">Tool that analyzes text to determine emotional tone.</p>
+            </article>
+            <article class="project-card" data-project-url="https://your-streamlit-app-2.streamlit.app">
+                <div class="project-art" aria-hidden="true">📊</div>
+                <h3>EDA Auto Tool</h3>
+                <p class="project-description">Automated exploratory data analysis for datasets.</p>
+            </article>
         </div>
     </section>
 </main>
+
+<footer>
+    <p>&copy; 2025 Aryan Srivastava. All rights reserved.</p>
+    <div class="social-links">
+        <a href="https://github.com/ascr0wn" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile">GitHub</a>
+        <a href="https://www.linkedin.com/in/aryan-srivastava-238717232"
+           target="_blank"
+           rel="noopener noreferrer"
+           aria-label="Visit Aryan Srivastava's LinkedIn profile">
+            LinkedIn
+        </a>
+
+    </div>
+</footer>
+
 <script src="script.js"></script>
 </body>
 </html>
