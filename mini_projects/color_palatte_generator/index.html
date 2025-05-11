@@ -3,103 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Color Palette Generator</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #1e1e1e;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
-        h1 {
-            margin-bottom: 1rem;
-        }
-        .palette {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: center;
-            margin-bottom: 2rem;
-        }
-        .color-box {
-            width: 150px;
-            height: 150px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-        .color-box:hover {
-            transform: scale(1.1);
-        }
-        .btn {
-            padding: 0.8rem 1.5rem;
-            font-size: 1rem;
-            border: none;
-            border-radius: 8px;
-            background-color: #00bcd4;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .btn:hover {
-            background-color: #008c9e;
-        }
-        .copied {
-            position: fixed;
-            bottom: 1rem;
-            background-color: #4caf50;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            color: #fff;
-            display: none;
-            z-index: 10;
-        }
-    </style>
+    <title>Advanced Color Palette Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="description" content="Create beautiful color palettes with different generation modes, save favorites, and export options">
 </head>
 <body>
-<h1>🎨 Color Palette Generator</h1>
-<div class="palette" id="palette"></div>
-<button class="btn" onclick="generatePalette()">Generate New Palette</button>
-<div class="copied" id="copied-msg">Color copied!</div>
+    <div class="app-container">
+        <header>
+            <h1><i class="fas fa-palette"></i> Color Palette Generator</h1>
+            <div class="theme-toggle">
+                <input type="checkbox" id="theme-switch" class="theme-switch">
+                <label for="theme-switch" class="theme-switch-label">
+                    <i class="fas fa-moon"></i>
+                    <i class="fas fa-sun"></i>
+                    <span class="ball"></span>
+                </label>
+            </div>
+        </header>
 
-<script>
-    function generateHex() {
-        return '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
-    }
+        <div class="controls">
+            <div class="generation-modes">
+                <h3>Generation Mode</h3>
+                <div class="mode-buttons">
+                    <button class="mode-btn active" data-mode="random">Random</button>
+                    <button class="mode-btn" data-mode="complementary">Complementary</button>
+                    <button class="mode-btn" data-mode="analogous">Analogous</button>
+                    <button class="mode-btn" data-mode="triadic">Triadic</button>
+                    <button class="mode-btn" data-mode="monochromatic">Monochromatic</button>
+                </div>
+            </div>
 
-    function generatePalette() {
-        const palette = document.getElementById('palette');
-        palette.innerHTML = '';
-        for (let i = 0; i < 6; i++) {
-            const hex = generateHex();
-            const box = document.createElement('div');
-            box.className = 'color-box';
-            box.style.backgroundColor = hex;
-            box.innerText = hex.toUpperCase();
-            box.addEventListener('click', () => copyToClipboard(hex));
-            palette.appendChild(box);
-        }
-    }
+            <div class="color-count">
+                <h3>Colors</h3>
+                <div class="count-control">
+                    <button id="decrease-count" class="count-btn"><i class="fas fa-minus"></i></button>
+                    <span id="color-count">5</span>
+                    <button id="increase-count" class="count-btn"><i class="fas fa-plus"></i></button>
+                </div>
+            </div>
 
-    function copyToClipboard(hex) {
-        navigator.clipboard.writeText(hex);
-        const msg = document.getElementById('copied-msg');
-        msg.style.display = 'block';
-        setTimeout(() => msg.style.display = 'none', 1500);
-    }
+            <div class="action-buttons">
+                <button id="generate-btn" class="btn primary-btn">
+                    <i class="fas fa-sync-alt"></i> Generate
+                </button>
+                <button id="lock-all-btn" class="btn">
+                    <i class="fas fa-unlock"></i> Lock All
+                </button>
+                <button id="save-palette-btn" class="btn">
+                    <i class="fas fa-heart"></i> Save
+                </button>
+            </div>
+        </div>
 
-    // Generate palette on page load
-    window.onload = generatePalette;
-</script>
+        <div class="palette-container">
+            <div id="palette" class="palette"></div>
+        </div>
+
+        <div class="color-details" id="color-details">
+            <div class="color-preview">
+                <div id="selected-color" class="selected-color"></div>
+            </div>
+            <div class="color-info">
+                <div class="color-format">
+                    <h3>Color Formats</h3>
+                    <div class="format-item">
+                        <span>HEX:</span>
+                        <div class="copy-field">
+                            <input type="text" id="hex-value" readonly>
+                            <button class="copy-btn" data-target="hex-value">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="format-item">
+                        <span>RGB:</span>
+                        <div class="copy-field">
+                            <input type="text" id="rgb-value" readonly>
+                            <button class="copy-btn" data-target="rgb-value">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="format-item">
+                        <span>HSL:</span>
+                        <div class="copy-field">
+                            <input type="text" id="hsl-value" readonly>
+                            <button class="copy-btn" data-target="hsl-value">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="color-adjustment">
+                    <h3>Adjust Color</h3>
+                    <div class="adjustment-item">
+                        <label for="hue-slider">Hue:</label>
+                        <input type="range" id="hue-slider" min="0" max="360" value="0" class="slider">
+                    </div>
+                    <div class="adjustment-item">
+                        <label for="saturation-slider">Saturation:</label>
+                        <input type="range" id="saturation-slider" min="0" max="100" value="100" class="slider">
+                    </div>
+                    <div class="adjustment-item">
+                        <label for="lightness-slider">Lightness:</label>
+                        <input type="range" id="lightness-slider" min="0" max="100" value="50" class="slider">
+                    </div>
+                    <button id="apply-adjustment" class="btn">Apply to Color</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="export-section">
+            <h3>Export Palette</h3>
+            <div class="export-buttons">
+                <button id="export-css" class="export-btn">
+                    <i class="fas fa-code"></i> CSS Variables
+                </button>
+                <button id="export-json" class="export-btn">
+                    <i class="fas fa-file-code"></i> JSON
+                </button>
+                <button id="export-url" class="export-btn">
+                    <i class="fas fa-link"></i> URL
+                </button>
+                <button id="export-image" class="export-btn">
+                    <i class="fas fa-image"></i> Image
+                </button>
+            </div>
+        </div>
+
+        <div class="saved-palettes">
+            <div class="saved-header">
+                <h3>Saved Palettes</h3>
+                <button id="clear-saved" class="btn small-btn">
+                    <i class="fas fa-trash"></i> Clear All
+                </button>
+            </div>
+            <div id="saved-list" class="saved-list">
+                <!-- Saved palettes will be displayed here -->
+                <div class="empty-saved">No saved palettes yet</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export Modal -->
+    <div id="export-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="export-title">Export Palette</h2>
+            <div class="export-content">
+                <textarea id="export-data" readonly></textarea>
+                <button id="copy-export" class="btn">Copy to Clipboard</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        <span id="notification-message"></span>
+    </div>
+
+    <!-- Canvas for image export (hidden) -->
+    <canvas id="export-canvas" style="display: none;"></canvas>
+
+    <script src="script.js"></script>
 </body>
 </html>

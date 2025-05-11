@@ -3,116 +3,196 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Data Visualization Tool</title>
+  <title>Advanced Data Visualization Tool</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #4facfe, #00f2fe);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding-top: 2rem;
-      color: #333;
-    }
-    h1 {
-      color: #fff;
-      margin-bottom: 1rem;
-    }
-    .chart-container {
-      background-color: #fff;
-      padding: 2rem;
-      border-radius: 15px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-      width: 90%;
-      max-width: 700px;
-    }
-    .controls {
-      margin-top: 1.5rem;
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .controls select {
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
-    }
-  </style>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+  <meta name="description" content="Advanced data visualization tool with multiple chart types, data import/export, and customization options">
 </head>
 <body>
-  <h1>📊 Data Visualization Tool</h1>
-  <div class="chart-container">
-    <canvas id="myChart"></canvas>
-    <div class="controls">
-      <label for="chartType">Select Chart Type:</label>
-      <select id="chartType">
-        <option value="bar">Bar</option>
-        <option value="line">Line</option>
-        <option value="pie">Pie</option>
-        <option value="doughnut">Doughnut</option>
-      </select>
+  <div class="app-container">
+    <header>
+      <h1><i class="fas fa-chart-line"></i> Data Visualization Tool</h1>
+      <div class="theme-toggle">
+        <input type="checkbox" id="theme-switch" class="theme-switch">
+        <label for="theme-switch" class="theme-switch-label">
+          <i class="fas fa-moon"></i>
+          <i class="fas fa-sun"></i>
+          <span class="ball"></span>
+        </label>
+      </div>
+    </header>
+
+    <div class="main-content">
+      <div class="sidebar">
+        <div class="sidebar-section">
+          <h3>Data Input</h3>
+          <div class="input-group">
+            <label for="data-source">Data Source:</label>
+            <select id="data-source">
+              <option value="sample">Sample Data</option>
+              <option value="csv">CSV Upload</option>
+              <option value="manual">Manual Entry</option>
+            </select>
+          </div>
+          
+          <div id="csv-upload-container" class="data-input-container" style="display: none;">
+            <div class="file-upload">
+              <label for="csv-file" class="file-upload-label">
+                <i class="fas fa-file-csv"></i> Choose CSV File
+              </label>
+              <input type="file" id="csv-file" accept=".csv">
+              <span id="file-name">No file chosen</span>
+            </div>
+            <div class="csv-options">
+              <div class="input-group">
+                <label for="header-row">First Row is Header:</label>
+                <input type="checkbox" id="header-row" checked>
+              </div>
+              <div class="input-group">
+                <label for="delimiter">Delimiter:</label>
+                <select id="delimiter">
+                  <option value=",">Comma (,)</option>
+                  <option value=";">Semicolon (;)</option>
+                  <option value="\t">Tab</option>
+                </select>
+              </div>
+            </div>
+            <button id="load-csv-btn" class="btn primary-btn">Load Data</button>
+          </div>
+          
+          <div id="manual-entry-container" class="data-input-container" style="display: none;">
+            <div class="input-group">
+              <label for="labels-input">Labels (comma separated):</label>
+              <input type="text" id="labels-input" placeholder="Label1, Label2, Label3...">
+            </div>
+            <div id="datasets-container">
+              <div class="dataset-input" data-index="0">
+                <div class="input-group">
+                  <label for="dataset-name-0">Dataset Name:</label>
+                  <input type="text" id="dataset-name-0" placeholder="Dataset 1">
+                </div>
+                <div class="input-group">
+                  <label for="dataset-values-0">Values (comma separated):</label>
+                  <input type="text" id="dataset-values-0" placeholder="10, 20, 30...">
+                </div>
+                <div class="input-group">
+                  <label for="dataset-color-0">Color:</label>
+                  <input type="color" id="dataset-color-0" value="#4361ee">
+                </div>
+              </div>
+            </div>
+            <div class="button-group">
+              <button id="add-dataset-btn" class="btn"><i class="fas fa-plus"></i> Add Dataset</button>
+              <button id="load-manual-btn" class="btn primary-btn">Load Data</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="sidebar-section">
+          <h3>Chart Options</h3>
+          <div class="input-group">
+            <label for="chart-type">Chart Type:</label>
+            <select id="chart-type">
+              <option value="bar">Bar Chart</option>
+              <option value="line">Line Chart</option>
+              <option value="pie">Pie Chart</option>
+              <option value="doughnut">Doughnut Chart</option>
+              <option value="radar">Radar Chart</option>
+              <option value="polarArea">Polar Area Chart</option>
+              <option value="scatter">Scatter Plot</option>
+            </select>
+          </div>
+          
+          <div class="input-group">
+            <label for="chart-title">Chart Title:</label>
+            <input type="text" id="chart-title" placeholder="Enter chart title">
+          </div>
+          
+          <div class="input-group">
+            <label for="x-axis-label">X-Axis Label:</label>
+            <input type="text" id="x-axis-label" placeholder="X-Axis">
+          </div>
+          
+          <div class="input-group">
+            <label for="y-axis-label">Y-Axis Label:</label>
+            <input type="text" id="y-axis-label" placeholder="Y-Axis">
+          </div>
+          
+          <div class="input-group">
+            <label for="legend-position">Legend Position:</label>
+            <select id="legend-position">
+              <option value="top">Top</option>
+              <option value="right">Right</option>
+              <option value="bottom">Bottom</option>
+              <option value="left">Left</option>
+            </select>
+          </div>
+          
+          <div class="input-group checkbox-group">
+            <label for="show-data-labels">Show Data Labels:</label>
+            <input type="checkbox" id="show-data-labels">
+          </div>
+          
+          <div class="input-group checkbox-group">
+            <label for="show-grid-lines">Show Grid Lines:</label>
+            <input type="checkbox" id="show-grid-lines" checked>
+          </div>
+          
+          <div class="input-group checkbox-group">
+            <label for="enable-animations">Enable Animations:</label>
+            <input type="checkbox" id="enable-animations" checked>
+          </div>
+          
+          <button id="apply-options-btn" class="btn primary-btn">Apply Options</button>
+        </div>
+        
+        <div class="sidebar-section">
+          <h3>Export</h3>
+          <div class="export-buttons">
+            <button id="export-image-btn" class="btn export-btn">
+              <i class="fas fa-image"></i> PNG Image
+            </button>
+            <button id="export-csv-btn" class="btn export-btn">
+              <i class="fas fa-file-csv"></i> CSV Data
+            </button>
+            <button id="export-json-btn" class="btn export-btn">
+              <i class="fas fa-file-code"></i> JSON Data
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="chart-area">
+        <div class="chart-container">
+          <canvas id="chart-canvas"></canvas>
+        </div>
+        <div class="data-table-container">
+          <h3>Data Table</h3>
+          <div class="table-wrapper">
+            <table id="data-table">
+              <thead>
+                <tr id="table-header">
+                  <th>Label</th>
+                </tr>
+              </thead>
+              <tbody id="table-body">
+                <!-- Table rows will be added dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <script>
-    const ctx = document.getElementById('myChart').getContext('2d');
+  <!-- Notification -->
+  <div id="notification" class="notification">
+    <span id="notification-message"></span>
+  </div>
 
-    const data = {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-      datasets: [{
-        label: 'Sample Dataset',
-        data: [12, 19, 3, 5, 2, 3],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.6)',
-          'rgba(54, 162, 235, 0.6)',
-          'rgba(255, 206, 86, 0.6)',
-          'rgba(75, 192, 192, 0.6)',
-          'rgba(153, 102, 255, 0.6)',
-          'rgba(255, 159, 64, 0.6)'
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)'
-        ],
-        borderWidth: 1
-      }]
-    };
-
-    let config = {
-      type: 'bar',
-      data: data,
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'top',
-          },
-          title: {
-            display: true,
-            text: 'Interactive Chart Example'
-          }
-        }
-      },
-    };
-
-    let myChart = new Chart(ctx, config);
-
-    document.getElementById('chartType').addEventListener('change', function() {
-      const newType = this.value;
-      myChart.destroy();
-      config.type = newType;
-      myChart = new Chart(ctx, config);
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>

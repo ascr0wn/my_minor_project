@@ -1,139 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Elegant Calculator</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #1e3c72, #2a5298);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      color: #fff;
-    }
-    .calculator {
-      background-color: #20232a;
-      border-radius: 15px;
-      padding: 1.5rem;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
-      width: 320px;
-    }
-    .display {
-      background: #121212;
-      padding: 1rem;
-      border-radius: 10px;
-      font-size: 2rem;
-      text-align: right;
-      margin-bottom: 1rem;
-      color: #0f0;
-      overflow-x: auto;
-    }
-    .buttons {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.75rem;
-    }
-    button {
-      padding: 1rem;
-      font-size: 1.25rem;
-      border: none;
-      border-radius: 10px;
-      background-color: #333;
-      color: #fff;
-      cursor: pointer;
-      transition: background-color 0.3s, transform 0.2s;
-    }
-    button:hover {
-      background-color: #444;
-      transform: scale(1.05);
-    }
-    .operator {
-      background-color: #ff9500;
-    }
-    .operator:hover {
-      background-color: #e07d00;
-    }
-    .equals {
-      background-color: #00c853;
-      grid-column: span 2;
-    }
-    .equals:hover {
-      background-color: #00b140;
-    }
-    .clear {
-      background-color: #d32f2f;
-    }
-    .clear:hover {
-      background-color: #b71c1c;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced Calculator</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta name="description" content="Advanced calculator with standard and scientific modes, history, and memory functions">
 </head>
 <body>
-  <div class="calculator">
-    <div class="display" id="display">0</div>
-    <div class="buttons">
-      <button class="clear" onclick="clearDisplay()">C</button>
-      <button onclick="append('%')">%</button>
-      <button onclick="backspace()">⌫</button>
-      <button class="operator" onclick="append('/')">/</button>
+  <div class="calculator-container">
+    <div class="calculator">
+      <div class="calculator-header">
+        <div class="mode-toggle">
+          <button id="standard-mode" class="mode-btn active" aria-pressed="true">Standard</button>
+          <button id="scientific-mode" class="mode-btn" aria-pressed="false">Scientific</button>
+        </div>
+        <div class="theme-toggle">
+          <input type="checkbox" id="theme-switch" class="theme-switch">
+          <label for="theme-switch" class="theme-switch-label">
+            <i class="fas fa-moon"></i>
+            <i class="fas fa-sun"></i>
+            <span class="ball"></span>
+          </label>
+        </div>
+      </div>
 
-      <button onclick="append('7')">7</button>
-      <button onclick="append('8')">8</button>
-      <button onclick="append('9')">9</button>
-      <button class="operator" onclick="append('*')">*</button>
+      <div class="display-container">
+        <div class="expression" id="expression"></div>
+        <div class="display" id="display">0</div>
+      </div>
 
-      <button onclick="append('4')">4</button>
-      <button onclick="append('5')">5</button>
-      <button onclick="append('6')">6</button>
-      <button class="operator" onclick="append('-')">-</button>
+      <div class="memory-display" id="memory-display">
+        <span id="memory-indicator">M: 0</span>
+      </div>
 
-      <button onclick="append('1')">1</button>
-      <button onclick="append('2')">2</button>
-      <button onclick="append('3')">3</button>
-      <button class="operator" onclick="append('+')">+</button>
+      <div class="buttons-container">
+        <div class="buttons standard-buttons">
+          <!-- Memory Functions -->
+          <button class="memory-btn" data-action="memory-clear">MC</button>
+          <button class="memory-btn" data-action="memory-recall">MR</button>
+          <button class="memory-btn" data-action="memory-add">M+</button>
+          <button class="memory-btn" data-action="memory-subtract">M-</button>
 
-      <button onclick="append('0')">0</button>
-      <button onclick="append('.')">.</button>
-      <button class="equals" onclick="calculate()">=</button>
+          <!-- Standard Functions -->
+          <button class="function-btn" data-action="clear">C</button>
+          <button class="function-btn" data-action="backspace"><i class="fas fa-backspace"></i></button>
+          <button class="function-btn" data-action="percent">%</button>
+          <button class="operator-btn" data-action="divide">÷</button>
+
+          <button class="number-btn" data-value="7">7</button>
+          <button class="number-btn" data-value="8">8</button>
+          <button class="number-btn" data-value="9">9</button>
+          <button class="operator-btn" data-action="multiply">×</button>
+
+          <button class="number-btn" data-value="4">4</button>
+          <button class="number-btn" data-value="5">5</button>
+          <button class="number-btn" data-value="6">6</button>
+          <button class="operator-btn" data-action="subtract">−</button>
+
+          <button class="number-btn" data-value="1">1</button>
+          <button class="number-btn" data-value="2">2</button>
+          <button class="number-btn" data-value="3">3</button>
+          <button class="operator-btn" data-action="add">+</button>
+
+          <button class="number-btn" data-value="0">0</button>
+          <button class="number-btn" data-value=".">.</button>
+          <button class="number-btn" data-action="negate">±</button>
+          <button class="equals-btn" data-action="calculate">=</button>
+        </div>
+
+        <div class="buttons scientific-buttons" style="display: none;">
+          <!-- Scientific Functions -->
+          <button class="function-btn" data-action="square">x²</button>
+          <button class="function-btn" data-action="cube">x³</button>
+          <button class="function-btn" data-action="power">x<sup>y</sup></button>
+          <button class="function-btn" data-action="root">√x</button>
+
+          <button class="function-btn" data-action="sin">sin</button>
+          <button class="function-btn" data-action="cos">cos</button>
+          <button class="function-btn" data-action="tan">tan</button>
+          <button class="function-btn" data-action="log">log</button>
+
+          <button class="function-btn" data-action="ln">ln</button>
+          <button class="function-btn" data-action="factorial">x!</button>
+          <button class="function-btn" data-action="pi">π</button>
+          <button class="function-btn" data-action="e">e</button>
+
+          <button class="function-btn" data-action="open-parenthesis">(</button>
+          <button class="function-btn" data-action="close-parenthesis">)</button>
+          <button class="function-btn" data-action="exp">EXP</button>
+          <button class="function-btn" data-action="mod">mod</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="history-panel">
+      <div class="history-header">
+        <h3>History</h3>
+        <button id="clear-history-btn" aria-label="Clear history">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+      <div class="history-list" id="history-list">
+        <!-- History items will be added here -->
+        <div class="empty-history">No calculations yet</div>
+      </div>
     </div>
   </div>
 
-  <script>
-    let display = document.getElementById("display");
+  <div class="keyboard-shortcuts-info">
+    <button id="keyboard-info-btn" aria-label="Keyboard shortcuts">
+      <i class="fas fa-keyboard"></i>
+    </button>
+    <div class="shortcuts-panel" id="shortcuts-panel">
+      <h3>Keyboard Shortcuts</h3>
+      <ul>
+        <li><strong>0-9</strong>: Number keys</li>
+        <li><strong>+, -, *, /</strong>: Basic operations</li>
+        <li><strong>Enter</strong>: Calculate</li>
+        <li><strong>Backspace</strong>: Delete last character</li>
+        <li><strong>Delete, Escape</strong>: Clear all</li>
+        <li><strong>%</strong>: Percent</li>
+        <li><strong>m</strong>: Toggle mode</li>
+        <li><strong>t</strong>: Toggle theme</li>
+      </ul>
+    </div>
+  </div>
 
-    function append(value) {
-      if (display.innerText === "0") display.innerText = "";
-      display.innerText += value;
-    }
-
-    function clearDisplay() {
-      display.innerText = "0";
-    }
-
-    function backspace() {
-      if (display.innerText.length === 1) {
-        display.innerText = "0";
-      } else {
-        display.innerText = display.innerText.slice(0, -1);
-      }
-    }
-
-    function calculate() {
-      try {
-        let expression = display.innerText.replace(/%/g, "/100*");
-        let result = eval(expression);
-        display.innerText = result;
-      } catch (e) {
-        display.innerText = "Error";
-      }
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>

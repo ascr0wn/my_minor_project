@@ -4,126 +4,150 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Task Manager</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #00b4db, #0083b0);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-    }
-    .container {
-      background-color: #1c1c1c;
-      padding: 2rem;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      width: 90%;
-      max-width: 500px;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 1.5rem;
-    }
-    .input-group {
-      display: flex;
-      gap: 0.5rem;
-    }
-    input[type="text"] {
-      flex: 1;
-      padding: 0.8rem;
-      border: none;
-      border-radius: 10px;
-      font-size: 1rem;
-    }
-    button {
-      background-color: #00c853;
-      border: none;
-      color: white;
-      padding: 0.8rem 1rem;
-      font-size: 1rem;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    button:hover {
-      background-color: #009624;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-      margin-top: 1.5rem;
-    }
-    li {
-      background-color: #2e2e2e;
-      padding: 1rem;
-      margin-bottom: 0.75rem;
-      border-radius: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: background-color 0.3s;
-    }
-    li.completed {
-      background-color: #4caf50;
-      text-decoration: line-through;
-      color: #ccc;
-    }
-    .task-actions button {
-      margin-left: 0.5rem;
-      background-color: #ff5722;
-      padding: 0.4rem 0.8rem;
-      font-size: 0.9rem;
-    }
-    .task-actions button.complete {
-      background-color: #2196f3;
-    }
-    .task-actions button:hover {
-      opacity: 0.9;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <div class="container">
-    <h1>📝 Task Manager</h1>
-    <div class="input-group">
-      <input type="text" id="task-input" placeholder="Enter a new task...">
-      <button onclick="addTask()">Add</button>
+    <header>
+      <h1><i class="fas fa-tasks"></i> Task Manager</h1>
+      <div class="theme-toggle">
+        <input type="checkbox" id="theme-switch" class="theme-switch">
+        <label for="theme-switch" class="theme-switch-label">
+          <i class="fas fa-moon"></i>
+          <i class="fas fa-sun"></i>
+          <span class="ball"></span>
+        </label>
+      </div>
+    </header>
+
+    <div class="task-controls">
+      <div class="input-group">
+        <input type="text" id="task-input" placeholder="Enter a new task..." aria-label="Task description">
+        <input type="date" id="due-date" aria-label="Due date">
+        <select id="priority" aria-label="Task priority">
+          <option value="low">Low Priority</option>
+          <option value="medium" selected>Medium Priority</option>
+          <option value="high">High Priority</option>
+        </select>
+        <button id="add-task-btn" aria-label="Add task">
+          <i class="fas fa-plus"></i> Add
+        </button>
+      </div>
+      
+      <div class="filters">
+        <div class="filter-group">
+          <label for="filter-status">Status:</label>
+          <select id="filter-status" aria-label="Filter by status">
+            <option value="all">All</option>
+            <option value="active">Active</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label for="filter-priority">Priority:</label>
+          <select id="filter-priority" aria-label="Filter by priority">
+            <option value="all">All</option>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label for="sort-by">Sort by:</label>
+          <select id="sort-by" aria-label="Sort tasks">
+            <option value="date-added">Date Added</option>
+            <option value="due-date">Due Date</option>
+            <option value="priority">Priority</option>
+          </select>
+        </div>
+      </div>
     </div>
-    <ul id="task-list"></ul>
+
+    <div class="tasks-container">
+      <h2>My Tasks <span id="task-count">(0)</span></h2>
+      <ul id="task-list" aria-label="Task list"></ul>
+    </div>
+
+    <div class="stats">
+      <div class="stat-item">
+        <span id="total-tasks">0</span>
+        <p>Total Tasks</p>
+      </div>
+      <div class="stat-item">
+        <span id="completed-tasks">0</span>
+        <p>Completed</p>
+      </div>
+      <div class="stat-item">
+        <span id="pending-tasks">0</span>
+        <p>Pending</p>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="clear-completed-btn" aria-label="Clear completed tasks">
+        <i class="fas fa-check-double"></i> Clear Completed
+      </button>
+      <button id="clear-all-btn" aria-label="Clear all tasks">
+        <i class="fas fa-trash-alt"></i> Clear All
+      </button>
+    </div>
   </div>
 
-  <script>
-    const taskList = document.getElementById('task-list');
-    const taskInput = document.getElementById('task-input');
-
-    function addTask() {
-      const text = taskInput.value.trim();
-      if (text === '') return;
-
-      const li = document.createElement('li');
-      li.innerHTML = `
-        <span>${text}</span>
-        <div class="task-actions">
-          <button class="complete" onclick="toggleComplete(this)">✓</button>
-          <button onclick="deleteTask(this)">🗑️</button>
+  <!-- Task Template (Hidden) -->
+  <template id="task-template">
+    <li class="task-item" data-id="">
+      <div class="task-content">
+        <div class="task-checkbox-title">
+          <input type="checkbox" class="task-checkbox" aria-label="Mark task as complete">
+          <span class="task-title"></span>
         </div>
-      `;
-      taskList.appendChild(li);
-      taskInput.value = '';
-    }
+        <div class="task-details">
+          <span class="task-priority"></span>
+          <span class="task-due-date"></span>
+        </div>
+      </div>
+      <div class="task-actions">
+        <button class="edit-btn" aria-label="Edit task">
+          <i class="fas fa-edit"></i>
+        </button>
+        <button class="delete-btn" aria-label="Delete task">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    </li>
+  </template>
 
-    function toggleComplete(btn) {
-      const li = btn.closest('li');
-      li.classList.toggle('completed');
-    }
+  <!-- Edit Task Modal -->
+  <div id="edit-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Edit Task</h2>
+      <form id="edit-form">
+        <input type="hidden" id="edit-task-id">
+        <div class="form-group">
+          <label for="edit-title">Task Title:</label>
+          <input type="text" id="edit-title" required>
+        </div>
+        <div class="form-group">
+          <label for="edit-due-date">Due Date:</label>
+          <input type="date" id="edit-due-date">
+        </div>
+        <div class="form-group">
+          <label for="edit-priority">Priority:</label>
+          <select id="edit-priority">
+            <option value="low">Low Priority</option>
+            <option value="medium">Medium Priority</option>
+            <option value="high">High Priority</option>
+          </select>
+        </div>
+        <button type="submit" id="save-edit-btn">Save Changes</button>
+      </form>
+    </div>
+  </div>
 
-    function deleteTask(btn) {
-      const li = btn.closest('li');
-      li.remove();
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>

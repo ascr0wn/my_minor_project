@@ -3,134 +3,188 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Memory Game</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #8e2de2, #4a00e0);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      color: white;
-    }
-    .game-container {
-      text-align: center;
-    }
-    h1 {
-      margin-bottom: 1rem;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(4, 80px);
-      grid-gap: 15px;
-      justify-content: center;
-    }
-    .card {
-      width: 80px;
-      height: 80px;
-      background-color: #ffffff10;
-      border-radius: 10px;
-      font-size: 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: transform 0.3s, background-color 0.3s;
-      user-select: none;
-    }
-    .card.revealed, .card.matched {
-      background-color: #ffffffaa;
-      color: #4a00e0;
-      transform: scale(1.05);
-    }
-    .card.matched {
-      background-color: #4caf50;
-      color: white;
-      cursor: default;
-    }
-    .reset-btn {
-      margin-top: 1.5rem;
-      padding: 0.6rem 1.2rem;
-      font-size: 1rem;
-      border: none;
-      border-radius: 8px;
-      background-color: #00bcd4;
-      color: white;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    .reset-btn:hover {
-      background-color: #0097a7;
-    }
-  </style>
+  <title>Advanced Memory Game</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta name="description" content="An advanced memory card matching game with multiple difficulty levels, timer, and leaderboard">
 </head>
 <body>
   <div class="game-container">
-    <h1>🧠 Memory Game</h1>
-    <div class="grid" id="game-grid"></div>
-    <button class="reset-btn" onclick="startGame()">Reset Game</button>
+    <header>
+      <h1><i class="fas fa-brain"></i> Memory Game</h1>
+      <div class="theme-toggle">
+        <input type="checkbox" id="theme-switch" class="theme-switch">
+        <label for="theme-switch" class="theme-switch-label">
+          <i class="fas fa-moon"></i>
+          <i class="fas fa-sun"></i>
+          <span class="ball"></span>
+        </label>
+      </div>
+    </header>
+
+    <div class="game-menu" id="game-menu">
+      <h2>Welcome to Memory Game!</h2>
+      <p>Test your memory by matching pairs of cards. Choose a difficulty level to begin:</p>
+      
+      <div class="difficulty-buttons">
+        <button class="btn difficulty-btn" data-difficulty="easy">
+          <i class="fas fa-child"></i> Easy
+          <span class="difficulty-desc">4×3 Grid (6 Pairs)</span>
+        </button>
+        <button class="btn difficulty-btn" data-difficulty="medium">
+          <i class="fas fa-user"></i> Medium
+          <span class="difficulty-desc">4×4 Grid (8 Pairs)</span>
+        </button>
+        <button class="btn difficulty-btn" data-difficulty="hard">
+          <i class="fas fa-user-graduate"></i> Hard
+          <span class="difficulty-desc">5×6 Grid (15 Pairs)</span>
+        </button>
+      </div>
+      
+      <div class="theme-selection">
+        <h3>Card Theme:</h3>
+        <div class="theme-buttons">
+          <button class="btn theme-btn active" data-theme="emoji">
+            <i class="far fa-smile"></i> Emoji
+          </button>
+          <button class="btn theme-btn" data-theme="animals">
+            <i class="fas fa-paw"></i> Animals
+          </button>
+          <button class="btn theme-btn" data-theme="food">
+            <i class="fas fa-pizza-slice"></i> Food
+          </button>
+        </div>
+      </div>
+      
+      <div class="sound-toggle">
+        <label for="sound-switch">Sound Effects:</label>
+        <input type="checkbox" id="sound-switch" checked>
+      </div>
+      
+      <button class="btn view-leaderboard-btn">
+        <i class="fas fa-trophy"></i> View Leaderboard
+      </button>
+    </div>
+
+    <div class="game-board" id="game-board" style="display: none;">
+      <div class="game-info">
+        <div class="info-item">
+          <i class="fas fa-layer-group"></i>
+          <span id="difficulty-display">Medium</span>
+        </div>
+        <div class="info-item">
+          <i class="fas fa-stopwatch"></i>
+          <span id="timer">00:00</span>
+        </div>
+        <div class="info-item">
+          <i class="fas fa-sync-alt"></i>
+          <span id="moves">0 Moves</span>
+        </div>
+      </div>
+      
+      <div class="grid" id="game-grid"></div>
+      
+      <div class="game-controls">
+        <button class="btn control-btn" id="restart-btn">
+          <i class="fas fa-redo"></i> Restart
+        </button>
+        <button class="btn control-btn" id="new-game-btn">
+          <i class="fas fa-home"></i> New Game
+        </button>
+        <button class="btn control-btn" id="pause-btn">
+          <i class="fas fa-pause"></i> Pause
+        </button>
+      </div>
+    </div>
+
+    <div class="game-over" id="game-over" style="display: none;">
+      <div class="result-container">
+        <h2><i class="fas fa-trophy"></i> Congratulations!</h2>
+        <p>You've completed the game!</p>
+        
+        <div class="result-stats">
+          <div class="stat-item">
+            <i class="fas fa-stopwatch"></i>
+            <span>Time: <span id="result-time">00:45</span></span>
+          </div>
+          <div class="stat-item">
+            <i class="fas fa-sync-alt"></i>
+            <span>Moves: <span id="result-moves">24</span></span>
+          </div>
+          <div class="stat-item">
+            <i class="fas fa-star"></i>
+            <span>Score: <span id="result-score">850</span></span>
+          </div>
+        </div>
+        
+        <div class="name-input">
+          <label for="player-name">Enter your name for the leaderboard:</label>
+          <input type="text" id="player-name" maxlength="15" placeholder="Your Name">
+        </div>
+        
+        <div class="result-buttons">
+          <button class="btn" id="save-score-btn">
+            <i class="fas fa-save"></i> Save Score
+          </button>
+          <button class="btn" id="play-again-btn">
+            <i class="fas fa-redo"></i> Play Again
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="leaderboard" id="leaderboard" style="display: none;">
+      <h2><i class="fas fa-trophy"></i> Leaderboard</h2>
+      
+      <div class="leaderboard-filters">
+        <button class="btn filter-btn active" data-filter="all">All</button>
+        <button class="btn filter-btn" data-filter="easy">Easy</button>
+        <button class="btn filter-btn" data-filter="medium">Medium</button>
+        <button class="btn filter-btn" data-filter="hard">Hard</button>
+      </div>
+      
+      <div class="leaderboard-table-container">
+        <table class="leaderboard-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Name</th>
+              <th>Difficulty</th>
+              <th>Score</th>
+              <th>Time</th>
+              <th>Moves</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body">
+            <!-- Leaderboard entries will be added here dynamically -->
+          </tbody>
+        </table>
+      </div>
+      
+      <button class="btn" id="close-leaderboard-btn">
+        <i class="fas fa-times"></i> Close
+      </button>
+    </div>
   </div>
 
-  <script>
-    const emojis = ['🌊', '🌟', '🎉', '🏆', '🌴', '🌞', '💙', '🚀'];
-    let grid, firstCard, secondCard, lockBoard = false;
+  <!-- Pause Modal -->
+  <div class="modal" id="pause-modal">
+    <div class="modal-content">
+      <h2>Game Paused</h2>
+      <p>Take a break! Click resume when you're ready to continue.</p>
+      <button class="btn" id="resume-btn">
+        <i class="fas fa-play"></i> Resume Game
+      </button>
+    </div>
+  </div>
 
-    function startGame() {
-      const pairs = [...emojis, ...emojis];
-      pairs.sort(() => 0.5 - Math.random());
-      grid = document.getElementById('game-grid');
-      grid.innerHTML = '';
-      firstCard = secondCard = null;
-      lockBoard = false;
+  <!-- Audio Elements -->
+  <audio id="flip-sound" src="sounds/flip.mp3" preload="auto"></audio>
+  <audio id="match-sound" src="sounds/match.mp3" preload="auto"></audio>
+  <audio id="success-sound" src="sounds/success.mp3" preload="auto"></audio>
+  <audio id="error-sound" src="sounds/error.mp3" preload="auto"></audio>
 
-      pairs.forEach(emoji => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.dataset.emoji = emoji;
-        card.innerText = '';
-        card.addEventListener('click', revealCard);
-        grid.appendChild(card);
-      });
-    }
-
-    function revealCard() {
-      if (lockBoard || this.classList.contains('revealed') || this.classList.contains('matched')) return;
-
-      this.innerText = this.dataset.emoji;
-      this.classList.add('revealed');
-
-      if (!firstCard) {
-        firstCard = this;
-        return;
-      }
-
-      secondCard = this;
-      lockBoard = true;
-
-      if (firstCard.dataset.emoji === secondCard.dataset.emoji) {
-        firstCard.classList.add('matched');
-        secondCard.classList.add('matched');
-        resetTurn();
-      } else {
-        setTimeout(() => {
-          firstCard.innerText = '';
-          secondCard.innerText = '';
-          firstCard.classList.remove('revealed');
-          secondCard.classList.remove('revealed');
-          resetTurn();
-        }, 1000);
-      }
-    }
-
-    function resetTurn() {
-      [firstCard, secondCard] = [null, null];
-      lockBoard = false;
-    }
-
-    // Start game on load
-    window.onload = startGame;
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
