@@ -21,6 +21,10 @@
         <img src="images/aryan.jpg" alt="Aryan Srivastava's profile photo" class="profile-img"
              data-hover-src="images/my_photos.gif" />
         <h1>Aryan Srivastava</h1>
+        <div id="clock" class="digital-clock">
+            <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
+            <span id="ampm">AM</span>
+        </div>
 
         <div class="collapsible-container">
             <div class="collapsible-header" data-toggle="education-details" role="button" aria-expanded="false" aria-controls="education-details">🎓 Education</div>
@@ -36,6 +40,35 @@
             <div id="achievements-details" class="collapsible-content" aria-hidden="true">
                 <div class="entry">Scored 8.5+ CGPA continuously with no backlogs</div>
                 <div class="entry">Secured AIR 1852 in <a href="https://gate2025.iitr.ac.in/index.html" target="_blank" rel="noopener noreferrer"> GATE 2025 CSE</a></div>
+            </div>
+        </div>
+
+        <div class="collapsible-container">
+            <div class="collapsible-header" data-toggle="skills-details" role="button" aria-expanded="false" aria-controls="skills-details">💻 Technical Skills</div>
+            <div id="skills-details" class="collapsible-content" aria-hidden="true">
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h4>Programming Languages</h4>
+                        <div class="skill-item"><span class="skill-icon">🔷</span>JavaScript</div>
+                        <div class="skill-item"><span class="skill-icon">🔷</span>Python</div>
+                        <div class="skill-item"><span class="skill-icon">🔷</span>Java</div>
+                        <div class="skill-item"><span class="skill-icon">🔷</span>C++</div>
+                    </div>
+                    <div class="skill-category">
+                        <h4>Web Development</h4>
+                        <div class="skill-item"><span class="skill-icon">🔶</span>HTML5</div>
+                        <div class="skill-item"><span class="skill-icon">🔶</span>CSS3</div>
+                        <div class="skill-item"><span class="skill-icon">🔶</span>React</div>
+                        <div class="skill-item"><span class="skill-icon">🔶</span>Node.js</div>
+                    </div>
+                    <div class="skill-category">
+                        <h4>Blockchain</h4>
+                        <div class="skill-item"><span class="skill-icon">🟢</span>Solidity</div>
+                        <div class="skill-item"><span class="skill-icon">🟢</span>Web3.js</div>
+                        <div class="skill-item"><span class="skill-icon">🟢</span>Smart Contracts</div>
+                        <div class="skill-item"><span class="skill-icon">🟢</span>DApps</div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -65,6 +98,32 @@
                 </div>
             </div>
         </div>
+
+        <div class="comment-section">
+            <h2>Leave a Comment</h2>
+            <form id="comment-form">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="comment">Comment:</label>
+                    <textarea id="comment" name="comment" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Submit Comment</button>
+            </form>
+
+            <div class="comments-container">
+                <h3>Comments</h3>
+                <div id="comments-list">
+                    <!-- Comments will be displayed here -->
+                </div>
+            </div>
+        </div>
     </section>
 
     <section id="projects" class="content-section" style="display:none;">
@@ -80,14 +139,41 @@
                 <h3>Rock-Paper-Scissor</h3>
                 <p class="project-description">A Classic Game.</p>
             </article>
-            <article class="project-card" data-project-url="https://your-streamlit-app-2.streamlit.app">
+            <article class="project-card" data-project-url="https://passwordgeneratorapp-npoiqeapp2gzhggfcrmze9v.streamlit.app/">
                 <img src="images/pg.jpg" alt="Screenshot of password Generator" class="project-img" />
                 <h3>Password Generator</h3>
                 <p class="project-description">Generate a secure password automatically.</p>
             </article>
+            <article class="project-card" data-project-url="#">
+                <div class="project-art">📝</div>
+                <h3>Task Manager</h3>
+                <p class="project-description">A web app to organize and track your daily tasks with priority levels and due dates.</p>
+            </article>
+            <article class="project-card" data-project-url="#">
+                <div class="project-art">🧮</div>
+                <h3>Calculator App</h3>
+                <p class="project-description">A fully functional calculator with standard and scientific modes.</p>
+            </article>
+            <article class="project-card" data-project-url="#">
+                <div class="project-art">🎨</div>
+                <h3>Color Palette Generator</h3>
+                <p class="project-description">Create harmonious color schemes for your design projects.</p>
+            </article>
+            <article class="project-card" data-project-url="#">
+                <div class="project-art">📊</div>
+                <h3>Data Visualization Tool</h3>
+                <p class="project-description">Interactive charts and graphs for data analysis.</p>
+            </article>
+            <article class="project-card" data-project-url="#">
+                <div class="project-art">🎮</div>
+                <h3>Memory Game</h3>
+                <p class="project-description">Test and improve your memory with this fun card-matching game.</p>
+            </article>
         </div>
     </section>
 </main>
+
+<button id="back-to-top" aria-label="Back to top">↑</button>
 
 <footer>
     <p>&copy; 2025 Aryan Srivastava. All rights reserved.</p>
