@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Palette Generator</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        h1 {
+            margin-bottom: 1rem;
+        }
+        .palette {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        .color-box {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .color-box:hover {
+            transform: scale(1.1);
+        }
+        .btn {
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            background-color: #00bcd4;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #008c9e;
+        }
+        .copied {
+            position: fixed;
+            bottom: 1rem;
+            background-color: #4caf50;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            color: #fff;
+            display: none;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+<h1>🎨 Color Palette Generator</h1>
+<div class="palette" id="palette"></div>
+<button class="btn" onclick="generatePalette()">Generate New Palette</button>
+<div class="copied" id="copied-msg">Color copied!</div>
+
+<script>
+    function generateHex() {
+        return '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+    }
+
+    function generatePalette() {
+        const palette = document.getElementById('palette');
+        palette.innerHTML = '';
+        for (let i = 0; i < 6; i++) {
+            const hex = generateHex();
+            const box = document.createElement('div');
+            box.className = 'color-box';
+            box.style.backgroundColor = hex;
+            box.innerText = hex.toUpperCase();
+            box.addEventListener('click', () => copyToClipboard(hex));
+            palette.appendChild(box);
+        }
+    }
+
+    function copyToClipboard(hex) {
+        navigator.clipboard.writeText(hex);
+        const msg = document.getElementById('copied-msg');
+        msg.style.display = 'block';
+        setTimeout(() => msg.style.display = 'none', 1500);
+    }
+
+    // Generate palette on page load
+    window.onload = generatePalette;
+</script>
+</body>
+</html>

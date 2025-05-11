@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #00b4db, #0083b0);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+    .container {
+      background-color: #1c1c1c;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      width: 90%;
+      max-width: 500px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .input-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #00c853;
+      border: none;
+      color: white;
+      padding: 0.8rem 1rem;
+      font-size: 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #009624;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 1.5rem;
+    }
+    li {
+      background-color: #2e2e2e;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background-color 0.3s;
+    }
+    li.completed {
+      background-color: #4caf50;
+      text-decoration: line-through;
+      color: #ccc;
+    }
+    .task-actions button {
+      margin-left: 0.5rem;
+      background-color: #ff5722;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.9rem;
+    }
+    .task-actions button.complete {
+      background-color: #2196f3;
+    }
+    .task-actions button:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📝 Task Manager</h1>
+    <div class="input-group">
+      <input type="text" id="task-input" placeholder="Enter a new task...">
+      <button onclick="addTask()">Add</button>
+    </div>
+    <ul id="task-list"></ul>
+  </div>
+
+  <script>
+    const taskList = document.getElementById('task-list');
+    const taskInput = document.getElementById('task-input');
+
+    function addTask() {
+      const text = taskInput.value.trim();
+      if (text === '') return;
+
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <span>${text}</span>
+        <div class="task-actions">
+          <button class="complete" onclick="toggleComplete(this)">✓</button>
+          <button onclick="deleteTask(this)">🗑️</button>
+        </div>
+      `;
+      taskList.appendChild(li);
+      taskInput.value = '';
+    }
+
+    function toggleComplete(btn) {
+      const li = btn.closest('li');
+      li.classList.toggle('completed');
+    }
+
+    function deleteTask(btn) {
+      const li = btn.closest('li');
+      li.remove();
+    }
+  </script>
+</body>
+</html>

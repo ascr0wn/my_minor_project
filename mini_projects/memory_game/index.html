@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Game</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #8e2de2, #4a00e0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
+    }
+    .game-container {
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 1rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 80px);
+      grid-gap: 15px;
+      justify-content: center;
+    }
+    .card {
+      width: 80px;
+      height: 80px;
+      background-color: #ffffff10;
+      border-radius: 10px;
+      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.3s, background-color 0.3s;
+      user-select: none;
+    }
+    .card.revealed, .card.matched {
+      background-color: #ffffffaa;
+      color: #4a00e0;
+      transform: scale(1.05);
+    }
+    .card.matched {
+      background-color: #4caf50;
+      color: white;
+      cursor: default;
+    }
+    .reset-btn {
+      margin-top: 1.5rem;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #00bcd4;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .reset-btn:hover {
+      background-color: #0097a7;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <h1>🧠 Memory Game</h1>
+    <div class="grid" id="game-grid"></div>
+    <button class="reset-btn" onclick="startGame()">Reset Game</button>
+  </div>
+
+  <script>
+    const emojis = ['🌊', '🌟', '🎉', '🏆', '🌴', '🌞', '💙', '🚀'];
+    let grid, firstCard, secondCard, lockBoard = false;
+
+    function startGame() {
+      const pairs = [...emojis, ...emojis];
+      pairs.sort(() => 0.5 - Math.random());
+      grid = document.getElementById('game-grid');
+      grid.innerHTML = '';
+      firstCard = secondCard = null;
+      lockBoard = false;
+
+      pairs.forEach(emoji => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.dataset.emoji = emoji;
+        card.innerText = '';
+        card.addEventListener('click', revealCard);
+        grid.appendChild(card);
+      });
+    }
+
+    function revealCard() {
+      if (lockBoard || this.classList.contains('revealed') || this.classList.contains('matched')) return;
+
+      this.innerText = this.dataset.emoji;
+      this.classList.add('revealed');
+
+      if (!firstCard) {
+        firstCard = this;
+        return;
+      }
+
+      secondCard = this;
+      lockBoard = true;
+
+      if (firstCard.dataset.emoji === secondCard.dataset.emoji) {
+        firstCard.classList.add('matched');
+        secondCard.classList.add('matched');
+        resetTurn();
+      } else {
+        setTimeout(() => {
+          firstCard.innerText = '';
+          secondCard.innerText = '';
+          firstCard.classList.remove('revealed');
+          secondCard.classList.remove('revealed');
+          resetTurn();
+        }, 1000);
+      }
+    }
+
+    function resetTurn() {
+      [firstCard, secondCard] = [null, null];
+      lockBoard = false;
+    }
+
+    // Start game on load
+    window.onload = startGame;
+  </script>
+</body>
+</html>

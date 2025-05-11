@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Visualization Tool</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 2rem;
+      color: #333;
+    }
+    h1 {
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+    .chart-container {
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      width: 90%;
+      max-width: 700px;
+    }
+    .controls {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .controls select {
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>📊 Data Visualization Tool</h1>
+  <div class="chart-container">
+    <canvas id="myChart"></canvas>
+    <div class="controls">
+      <label for="chartType">Select Chart Type:</label>
+      <select id="chartType">
+        <option value="bar">Bar</option>
+        <option value="line">Line</option>
+        <option value="pie">Pie</option>
+        <option value="doughnut">Doughnut</option>
+      </select>
+    </div>
+  </div>
+
+  <script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+
+    const data = {
+      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      datasets: [{
+        label: 'Sample Dataset',
+        data: [12, 19, 3, 5, 2, 3],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.6)',
+          'rgba(54, 162, 235, 0.6)',
+          'rgba(255, 206, 86, 0.6)',
+          'rgba(75, 192, 192, 0.6)',
+          'rgba(153, 102, 255, 0.6)',
+          'rgba(255, 159, 64, 0.6)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }]
+    };
+
+    let config = {
+      type: 'bar',
+      data: data,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Interactive Chart Example'
+          }
+        }
+      },
+    };
+
+    let myChart = new Chart(ctx, config);
+
+    document.getElementById('chartType').addEventListener('change', function() {
+      const newType = this.value;
+      myChart.destroy();
+      config.type = newType;
+      myChart = new Chart(ctx, config);
+    });
+  </script>
+</body>
+</html>
